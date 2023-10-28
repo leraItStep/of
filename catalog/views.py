@@ -23,7 +23,7 @@ def catalog_view(request):
 
 def catalog_detail_view(request, cat):
     if cat not in CATEGORIES:
-        return redirect('/', permanent=True)
+        return redirect('home', permanent=True)
     return HttpResponse(f"<h3>Main page</h3>{cat}</p>")
 
 

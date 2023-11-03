@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Category, Genre, Screenshot, Movie, Director
+from .models import Category, Genre, Screenshot, Movie, Director, Actor
 
 
 @admin.register(Category)
@@ -41,6 +41,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ("title", "category",)
     inlines = [MovieShotsInline, DirectorInline, ]
     readonly_fields = ("get_image",)
+    prepopulated_fields = {"slug": ("first_name", "last_name",)}
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="100" height="110">')
@@ -48,4 +49,15 @@ class MovieAdmin(admin.ModelAdmin):
     get_image.short_description = "Poster"
 
 
-admin.site.register(Director)
+@admin.register(Actor)
+class ActorAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name",)
+    readonly_fields = ("get_image",)
+    prepopulated_fields = {"slug": ("first_name", "last_name",)}
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.photo.url} width = "100" height="110">')
+
+    get_image.short_description = "Image"
+
+
